@@ -168,7 +168,7 @@ function loop(time) {
 // ==============================
 async function init() {
   // UNWRAP ARRAY HERE
-  const demo = (await fetch("demo.json").then(r => r.json()))[0];
+  const demo = (await fetch("./demo.json").then(r => r.json()))[0];
 
   bgData = demo.background;
   bg = await loadImage(bgData.image);
