@@ -1,13 +1,12 @@
 const canvas = document.getElementById("funkin");
 const ctx = canvas.getContext("2d");
 
-// Design resolution for scaling
+// ==============================
+// DESIGN RESOLUTION
+// ==============================
 const DESIGN_WIDTH = 1280;
 const DESIGN_HEIGHT = 720;
 
-// ==============================
-// RESIZE CANVAS TO FULL SCREEN
-// ==============================
 let scaleX = 1;
 let scaleY = 1;
 
@@ -36,15 +35,13 @@ function loadImage(src) {
     const img = new Image();
     img.src = src;
     img.onload = () => res(img);
-    img.onerror = () => console.error("Failed to load image:", src);
   });
 }
 
 function loadXML(src) {
   return fetch(src)
     .then(r => r.text())
-    .then(t => new DOMParser().parseFromString(t, "text/xml"))
-    .catch(err => console.error("Failed to load XML:", src, err));
+    .then(t => new DOMParser().parseFromString(t, "text/xml"));
 }
 
 // ==============================
@@ -58,7 +55,8 @@ class Sprite {
     this.y = y;
     this.scale = scale;
 
-    this.anim = frames["idle"] ? "idle" : Object.keys(frames)[0];
+    // HARD force idle if present
+    this.anim = frames.idle ? "idle" : Object.keys(frames)[0];
     this.frameIndex = 0;
     this.frameTimer = 0;
     this.fps = 12;
@@ -73,45 +71,52 @@ class Sprite {
   }
 
   update(dt) {
-    const animFrames = this.frames[this.anim];
-    if (!animFrames || animFrames.length === 0) return;
+    const frames = this.frames[this.anim];
+    if (!frames) return;
 
     this.frameTimer += dt;
-    if (this.frameTimer > 1 / this.fps) {
+    if (this.frameTimer >= 1 / this.fps) {
       this.frameTimer = 0;
-      this.frameIndex = (this.frameIndex + 1) % animFrames.length;
+      this.frameIndex = (this.frameIndex + 1) % frames.length;
     }
   }
 
   draw() {
-    const frame = this.frames[this.anim][this.frameIndex];
-    if (!frame) return;
+    const f = this.frames[this.anim][this.frameIndex];
+    if (!f) return;
 
     ctx.drawImage(
       this.image,
-      frame.x, frame.y, frame.w, frame.h,
-      (this.x + frame.ox) * scaleX,
-      (this.y + frame.oy) * scaleY,
-      frame.w * this.scale * scaleX,
-      frame.h * this.scale * scaleY
+      f.x, f.y, f.w, f.h,
+      (this.x + f.ox) * scaleX,
+      (this.y + f.oy) * scaleY,
+      f.w * this.scale * scaleX,
+      f.h * this.scale * scaleY
     );
   }
 }
 
 // ==============================
-// XML PARSER (Sparrow)
+// PROPER SPARROW PARSER (FNF SAFE)
 // ==============================
 function parseSparrow(xml) {
   const frames = {};
   const subs = xml.getElementsByTagName("SubTexture");
 
   for (const sub of subs) {
-    const name = sub.getAttribute("name");
-    const anim = name.replace(/[0-9]/g, "").trim();
+    let name = sub.getAttribute("name");
 
-    if (!frames[anim]) frames[anim] = [];
+    // Remove trailing numbers
+    name = name.replace(/\d+$/, "");
 
-    frames[anim].push({
+    // Remove character prefix (BF, DAD, etc)
+    name = name.split(" ").slice(1).join(" ");
+
+    name = name.trim();
+
+    if (!frames[name]) frames[name] = [];
+
+    frames[name].push({
       x: +sub.getAttribute("x"),
       y: +sub.getAttribute("y"),
       w: +sub.getAttribute("width"),
@@ -127,7 +132,7 @@ function parseSparrow(xml) {
 // ==============================
 // STATE
 // ==============================
-let bg, bgData;
+let bg;
 let player, opponent;
 let lastTime = 0;
 
@@ -136,17 +141,17 @@ let lastTime = 0;
 // ==============================
 function updateControls() {
   // Opponent (WASD)
-  if (keys["w"]) opponent.setAnim("singUP");
-  else if (keys["a"]) opponent.setAnim("singLEFT");
-  else if (keys["s"]) opponent.setAnim("singDOWN");
-  else if (keys["d"]) opponent.setAnim("singRIGHT");
+  if (keys.w) opponent.setAnim("singUP");
+  else if (keys.a) opponent.setAnim("singLEFT");
+  else if (keys.s) opponent.setAnim("singDOWN");
+  else if (keys.d) opponent.setAnim("singRIGHT");
   else opponent.setAnim("idle");
 
   // Player (Arrow Keys)
-  if (keys["ArrowUp"]) player.setAnim("singUP");
-  else if (keys["ArrowLeft"]) player.setAnim("singLEFT");
-  else if (keys["ArrowDown"]) player.setAnim("singDOWN");
-  else if (keys["ArrowRight"]) player.setAnim("singRIGHT");
+  if (keys.ArrowUp) player.setAnim("singUP");
+  else if (keys.ArrowLeft) player.setAnim("singLEFT");
+  else if (keys.ArrowDown) player.setAnim("singDOWN");
+  else if (keys.ArrowRight) player.setAnim("singRIGHT");
   else player.setAnim("idle");
 }
 
@@ -159,16 +164,15 @@ function loop(time) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw background
   if (bg) ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
   updateControls();
 
-  opponent?.update(dt);
-  player?.update(dt);
+  opponent.update(dt);
+  player.update(dt);
 
-  opponent?.draw();
-  player?.draw();
+  opponent.draw();
+  player.draw();
 
   requestAnimationFrame(loop);
 }
@@ -177,27 +181,23 @@ function loop(time) {
 // INIT
 // ==============================
 async function init() {
-  // Load background
-  bgData = demo.background;
-  bg = await loadImage(bgData.image);
+  bg = await loadImage(demo.background.image);
 
-  // Load opponent
   const oppImg = await loadImage(demo.opponent.image);
-  const oppXML = parseSparrow(await loadXML(demo.opponent.xml));
+  const oppFrames = parseSparrow(await loadXML(demo.opponent.xml));
   opponent = new Sprite(
     oppImg,
-    oppXML,
+    oppFrames,
     demo.opponent.x,
     demo.opponent.y,
     demo.opponent.scale || 1
   );
 
-  // Load player
   const plrImg = await loadImage(demo.player.image);
-  const plrXML = parseSparrow(await loadXML(demo.player.xml));
+  const plrFrames = parseSparrow(await loadXML(demo.player.xml));
   player = new Sprite(
     plrImg,
-    plrXML,
+    plrFrames,
     demo.player.x,
     demo.player.y,
     demo.player.scale || 1
