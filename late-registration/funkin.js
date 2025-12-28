@@ -52,10 +52,8 @@ class Sprite {
     this.image = image;
     this.frames = frames;
 
-    // LOCKED base position (never changes)
     this.baseX = x;
     this.baseY = y;
-
     this.scale = scale;
 
     this.anim = frames.idle ? "idle" : Object.keys(frames)[0];
@@ -84,10 +82,9 @@ class Sprite {
   }
 
   draw() {
-    const f = this.frames[this.anim][this.frameIndex];
+    const f = this.frames[this.anim]?.[this.frameIndex];
     if (!f) return;
 
-    // Offsets applied RELATIVE to fixed base position
     const drawX = (this.baseX + f.ox) * scaleX;
     const drawY = (this.baseY + f.oy) * scaleY;
 
@@ -103,7 +100,7 @@ class Sprite {
 }
 
 // ==============================
-// SPARROW XML PARSER (FNF SAFE)
+// SPARROW XML PARSER
 // ==============================
 function parseSparrow(xml) {
   const frames = {};
@@ -111,11 +108,7 @@ function parseSparrow(xml) {
 
   for (const sub of subs) {
     let name = sub.getAttribute("name");
-
-    // Remove trailing numbers
     name = name.replace(/\d+$/, "");
-
-    // Remove character prefix (e.g. "BF idle" → "idle")
     const parts = name.split(" ");
     if (parts.length > 1) parts.shift();
     name = parts.join(" ").trim();
@@ -136,29 +129,30 @@ function parseSparrow(xml) {
 }
 
 // ==============================
-// STATE
+// GAME OBJECTS
 // ==============================
-let bg;
-let player, opponent;
+let gameObjects = [];
 let lastTime = 0;
 
-// ==============================
-// INPUT → ANIMATION
-// ==============================
 function updateControls() {
-  // Opponent (WASD)
-  if (keys.w) opponent.setAnim("singUP");
-  else if (keys.a) opponent.setAnim("singLEFT");
-  else if (keys.s) opponent.setAnim("singDOWN");
-  else if (keys.d) opponent.setAnim("singRIGHT");
-  else opponent.setAnim("idle");
+  const playerObj = gameObjects.find(o => o.name === "player")?.sprite;
+  const opponentObj = gameObjects.find(o => o.name === "opponent")?.sprite;
 
-  // Player (Arrow Keys)
-  if (keys.ArrowUp) player.setAnim("singUP");
-  else if (keys.ArrowLeft) player.setAnim("singLEFT");
-  else if (keys.ArrowDown) player.setAnim("singDOWN");
-  else if (keys.ArrowRight) player.setAnim("singRIGHT");
-  else player.setAnim("idle");
+  if (opponentObj) {
+    if (keys.w) opponentObj.setAnim("singUP");
+    else if (keys.a) opponentObj.setAnim("singLEFT");
+    else if (keys.s) opponentObj.setAnim("singDOWN");
+    else if (keys.d) opponentObj.setAnim("singRIGHT");
+    else opponentObj.setAnim("idle");
+  }
+
+  if (playerObj) {
+    if (keys.ArrowUp) playerObj.setAnim("singUP");
+    else if (keys.ArrowLeft) playerObj.setAnim("singLEFT");
+    else if (keys.ArrowDown) playerObj.setAnim("singDOWN");
+    else if (keys.ArrowRight) playerObj.setAnim("singRIGHT");
+    else playerObj.setAnim("idle");
+  }
 }
 
 // ==============================
@@ -170,27 +164,15 @@ function loop(time) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-if (bg) {
-  const bgScale = demo.background.scale ?? 1;
-  const bgX = demo.background.x ?? 0;
-  const bgY = demo.background.y ?? 0;
-
-  ctx.drawImage(
-    bg,
-    bgX * scaleX,
-    bgY * scaleY,
-    bg.width * bgScale * scaleX,
-    bg.height * bgScale * scaleY
-  );
-}
-
   updateControls();
 
-  opponent.update(dt);
-  player.update(dt);
+  // Sort by layer
+  const sortedObjects = [...gameObjects].sort((a, b) => (a.layer || 0) - (b.layer || 0));
 
-  opponent.draw();
-  player.draw();
+  for (const obj of sortedObjects) {
+    obj.sprite?.update(dt);
+    obj.sprite?.draw();
+  }
 
   requestAnimationFrame(loop);
 }
@@ -199,29 +181,37 @@ if (bg) {
 // INIT
 // ==============================
 async function init() {
-  bg = await loadImage(demo.background.image);
+  // Loop through demo keys
+  for (const key in demo) {
+    const obj = demo[key];
 
-  const oppImg = await loadImage(demo.opponent.image);
-  const oppFrames = parseSparrow(await loadXML(demo.opponent.xml));
-  opponent = new Sprite(
-    oppImg,
-    oppFrames,
-    demo.opponent.x,
-    demo.opponent.y,
-    demo.opponent.scale || 1
-  );
-
-  const plrImg = await loadImage(demo.player.image);
-  const plrFrames = parseSparrow(await loadXML(demo.player.xml));
-  player = new Sprite(
-    plrImg,
-    plrFrames,
-    demo.player.x,
-    demo.player.y,
-    demo.player.scale || 1
-  );
+    // Handle arrays of objects
+    if (Array.isArray(obj)) {
+      for (const o of obj) {
+        await loadAndPushObject(o);
+      }
+    } else {
+      await loadAndPushObject(obj);
+    }
+  }
 
   requestAnimationFrame(loop);
+}
+
+// Helper: load image, XML, create sprite and push
+async function loadAndPushObject(obj) {
+  const image = await loadImage(obj.image);
+  let frames = { idle: [{ x: 0, y: 0, w: image.width, h: image.height, ox: 0, oy: 0 }] };
+
+  if (obj.xml) {
+    frames = parseSparrow(await loadXML(obj.xml));
+  }
+
+  gameObjects.push({
+    name: obj.name || "object",
+    layer: obj.layer || 0,
+    sprite: new Sprite(image, frames, obj.x || 0, obj.y || 0, obj.scale || 1)
+  });
 }
 
 init();
