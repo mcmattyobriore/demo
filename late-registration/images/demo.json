@@ -1,3 +1,27 @@
 [
-  
+{
+  "background": {
+    "image": "assets/images/stage.png",
+    "x": 0,
+    "y": 0
+  },
+
+  "opponent": {
+    "name": "dad",
+    "image": "assets/images/dad.png",
+    "xml": "assets/images/dad.xml",
+    "x": 200,
+    "y": 350,
+    "scale": 1
+  },
+
+  "player": {
+    "name": "bf",
+    "image": "assets/images/bf.png",
+    "xml": "assets/images/bf.xml",
+    "x": 850,
+    "y": 450,
+    "scale": 1
+  }
+}
 ]
