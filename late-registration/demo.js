@@ -45,17 +45,19 @@ function loadXML(src) {
 }
 
 // ==============================
-// SPRITE CLASS
+// SPRITE CLASS (ANTI-JITTER)
 // ==============================
 class Sprite {
   constructor(image, frames, x, y, scale = 1) {
     this.image = image;
     this.frames = frames;
-    this.x = x;
-    this.y = y;
+
+    // LOCKED base position (never changes)
+    this.baseX = x;
+    this.baseY = y;
+
     this.scale = scale;
 
-    // HARD force idle if present
     this.anim = frames.idle ? "idle" : Object.keys(frames)[0];
     this.frameIndex = 0;
     this.frameTimer = 0;
@@ -85,11 +87,15 @@ class Sprite {
     const f = this.frames[this.anim][this.frameIndex];
     if (!f) return;
 
+    // Offsets applied RELATIVE to fixed base position
+    const drawX = (this.baseX + f.ox) * scaleX;
+    const drawY = (this.baseY + f.oy) * scaleY;
+
     ctx.drawImage(
       this.image,
       f.x, f.y, f.w, f.h,
-      (this.x + f.ox) * scaleX,
-      (this.y + f.oy) * scaleY,
+      drawX,
+      drawY,
       f.w * this.scale * scaleX,
       f.h * this.scale * scaleY
     );
@@ -97,7 +103,7 @@ class Sprite {
 }
 
 // ==============================
-// PROPER SPARROW PARSER (FNF SAFE)
+// SPARROW XML PARSER (FNF SAFE)
 // ==============================
 function parseSparrow(xml) {
   const frames = {};
@@ -109,10 +115,10 @@ function parseSparrow(xml) {
     // Remove trailing numbers
     name = name.replace(/\d+$/, "");
 
-    // Remove character prefix (BF, DAD, etc)
-    name = name.split(" ").slice(1).join(" ");
-
-    name = name.trim();
+    // Remove character prefix (e.g. "BF idle" → "idle")
+    const parts = name.split(" ");
+    if (parts.length > 1) parts.shift();
+    name = parts.join(" ").trim();
 
     if (!frames[name]) frames[name] = [];
 
