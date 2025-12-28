@@ -19,13 +19,15 @@ function loadImage(src) {
     const img = new Image();
     img.src = src;
     img.onload = () => res(img);
+    img.onerror = () => console.error("Failed to load image:", src);
   });
 }
 
 function loadXML(src) {
   return fetch(src)
     .then(r => r.text())
-    .then(t => new DOMParser().parseFromString(t, "text/xml"));
+    .then(t => new DOMParser().parseFromString(t, "text/xml"))
+    .catch(err => console.error("Failed to load XML:", src, err));
 }
 
 // ==============================
@@ -39,7 +41,8 @@ class Sprite {
     this.y = y;
     this.scale = scale;
 
-    this.anim = "idle";
+    // Default to first animation
+    this.anim = Object.keys(frames)[0] || "idle";
     this.frameIndex = 0;
     this.frameTimer = 0;
     this.fps = 12;
@@ -55,7 +58,7 @@ class Sprite {
 
   update(dt) {
     const animFrames = this.frames[this.anim];
-    if (!animFrames) return;
+    if (!animFrames || animFrames.length === 0) return;
 
     this.frameTimer += dt;
     if (this.frameTimer > 1 / this.fps) {
@@ -68,11 +71,12 @@ class Sprite {
     const frame = this.frames[this.anim][this.frameIndex];
     if (!frame) return;
 
+    // Ignore offsets to avoid off-screen issues
     ctx.drawImage(
       this.image,
       frame.x, frame.y, frame.w, frame.h,
-      this.x + frame.ox * this.scale,
-      this.y + frame.oy * this.scale,
+      this.x,
+      this.y,
       frame.w * this.scale,
       frame.h * this.scale
     );
@@ -88,7 +92,7 @@ function parseSparrow(xml) {
 
   for (const sub of subs) {
     const name = sub.getAttribute("name");
-    // Extract animation name (letters only)
+    // Extract animation name by removing numbers
     const anim = name.replace(/[0-9]/g, "").trim();
 
     if (!frames[anim]) frames[anim] = [];
@@ -98,8 +102,8 @@ function parseSparrow(xml) {
       y: +sub.getAttribute("y"),
       w: +sub.getAttribute("width"),
       h: +sub.getAttribute("height"),
-      ox: -(+sub.getAttribute("frameX") || 0),
-      oy: -(+sub.getAttribute("frameY") || 0)
+      ox: 0, // ignore offsets for now
+      oy: 0
     });
   }
 
@@ -114,25 +118,6 @@ let player, opponent;
 let lastTime = 0;
 
 // ==============================
-// INPUT → ANIM
-// ==============================
-function updateControls() {
-  // Opponent (WASD)
-  if (keys["w"]) opponent.setAnim("singUP");
-  else if (keys["a"]) opponent.setAnim("singLEFT");
-  else if (keys["s"]) opponent.setAnim("singDOWN");
-  else if (keys["d"]) opponent.setAnim("singRIGHT");
-  else opponent.setAnim("idle");
-
-  // Player (Arrow Keys)
-  if (keys["ArrowUp"]) player.setAnim("singUP");
-  else if (keys["ArrowLeft"]) player.setAnim("singLEFT");
-  else if (keys["ArrowDown"]) player.setAnim("singDOWN");
-  else if (keys["ArrowRight"]) player.setAnim("singRIGHT");
-  else player.setAnim("idle");
-}
-
-// ==============================
 // MAIN LOOP
 // ==============================
 function loop(time) {
@@ -143,8 +128,6 @@ function loop(time) {
 
   // Draw background
   ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
-
-  updateControls();
 
   opponent.update(dt);
   player.update(dt);
