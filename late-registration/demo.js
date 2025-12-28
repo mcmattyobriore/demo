@@ -170,7 +170,19 @@ function loop(time) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  if (bg) ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+if (bg) {
+  const bgScale = demo.background.scale ?? 1;
+  const bgX = demo.background.x ?? 0;
+  const bgY = demo.background.y ?? 0;
+
+  ctx.drawImage(
+    bg,
+    bgX * scaleX,
+    bgY * scaleY,
+    bg.width * bgScale * scaleX,
+    bg.height * bgScale * scaleY
+  );
+}
 
   updateControls();
 
