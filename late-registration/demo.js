@@ -8,7 +8,6 @@ canvas.height = 720;
 // INPUT
 // ==============================
 const keys = {};
-
 window.addEventListener("keydown", e => keys[e.key] = true);
 window.addEventListener("keyup", e => keys[e.key] = false);
 
@@ -89,6 +88,7 @@ function parseSparrow(xml) {
 
   for (const sub of subs) {
     const name = sub.getAttribute("name");
+    // Extract animation name (letters only)
     const anim = name.replace(/[0-9]/g, "").trim();
 
     if (!frames[anim]) frames[anim] = [];
@@ -109,10 +109,8 @@ function parseSparrow(xml) {
 // ==============================
 // STATE
 // ==============================
-let bg;
-let bgData;
-let player;
-let opponent;
+let bg, bgData;
+let player, opponent;
 let lastTime = 0;
 
 // ==============================
@@ -143,14 +141,8 @@ function loop(time) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Background
-  ctx.drawImage(
-    bg,
-    bgData.x,
-    bgData.y,
-    canvas.width,
-    canvas.height
-  );
+  // Draw background
+  ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
   updateControls();
 
@@ -167,33 +159,21 @@ function loop(time) {
 // INIT
 // ==============================
 async function init() {
-  // UNWRAP ARRAY HERE
   const demo = (await fetch("./demo.json").then(r => r.json()))[0];
 
+  // Load background
   bgData = demo.background;
   bg = await loadImage(bgData.image);
 
+  // Load opponent
   const oppImg = await loadImage(demo.opponent.image);
   const oppXML = parseSparrow(await loadXML(demo.opponent.xml));
+  opponent = new Sprite(oppImg, oppXML, demo.opponent.x, demo.opponent.y, demo.opponent.scale || 1);
 
-  opponent = new Sprite(
-    oppImg,
-    oppXML,
-    demo.opponent.x,
-    demo.opponent.y,
-    demo.opponent.scale || 1
-  );
-
+  // Load player
   const plrImg = await loadImage(demo.player.image);
   const plrXML = parseSparrow(await loadXML(demo.player.xml));
-
-  player = new Sprite(
-    plrImg,
-    plrXML,
-    demo.player.x,
-    demo.player.y,
-    demo.player.scale || 1
-  );
+  player = new Sprite(plrImg, plrXML, demo.player.x, demo.player.y, demo.player.scale || 1);
 
   requestAnimationFrame(loop);
 }
