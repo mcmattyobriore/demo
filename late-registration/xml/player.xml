@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="tcdkanye.png">
+<TextureAtlas imagePath="./images/player.png">
 	<!-- Created with Adobe Animate version 23.0.0.407 -->
 	<!-- http://www.adobe.com/products/animate.html -->
 	<SubTexture name="tcd down0000" x="0" y="0" width="828" height="838" frameX="0" frameY="-33" frameWidth="828" frameHeight="877"/>
