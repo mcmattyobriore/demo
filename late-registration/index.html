@@ -9,6 +9,85 @@
   </style>
 </head>
 <body>
+<style>
+  body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #111; }
+
+  #musicButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: transform 0.2s ease;
+  }
+
+  #musicButton:hover {
+    transform: scale(1.2);
+  }
+
+  #musicButton img {
+    width: 64px; /* adjust size as needed */
+    height: 64px;
+  }
+</style>
+
+<button id="musicButton">
+  <img id="musicIcon" src="./shared/images/ui/music-muted.png" alt="Music Button">
+</button>
+
+<script>
+  const tracks = [
+    "./shared/songs/heard-em-say.mp3",
+    "./shared/songs/late.mp3",
+    "./shared/songs/roses.mp3",
+    "./shared/songs/touch-the-sky.mp3",
+    "./shared/songs/we-major.mp3"
+  ];
+
+  let isPlaying = false;
+  let currentAudio = null;
+
+  const button = document.getElementById("musicButton");
+  const icon = document.getElementById("musicIcon");
+
+  function playRandomTrack() {
+    if (!isPlaying) return;
+
+    // pick a random track
+    const randomIndex = Math.floor(Math.random() * tracks.length);
+    const track = tracks[randomIndex];
+
+    // stop current audio if any
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+
+    currentAudio = new Audio(track);
+    currentAudio.volume = 1;
+    currentAudio.play();
+
+    // when track ends, play a new random one
+    currentAudio.onended = () => {
+      playRandomTrack();
+    };
+  }
+
+  button.addEventListener("click", () => {
+    isPlaying = !isPlaying;
+
+    if (isPlaying) {
+      icon.src = "./shared/images/ui/music-on.png";
+      playRandomTrack();
+    } else {
+      icon.src = "./shared/images/ui/music-muted.png";
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+      }
+    }
+  });
+</script>
+  
   <canvas id="funkin"></canvas>
 
   <!-- Inline demo data -->
