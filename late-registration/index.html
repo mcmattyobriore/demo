@@ -12,13 +12,15 @@
   <canvas id="funkin"></canvas>
 
   <!-- Inline demo data -->
-  <script>
-    const demo = {
-      background: { image: "./shared/images/background.png", x: -380, y: -200, scale: 0.8 },
-      opponent: { image: "./shared/images/opponent.png", xml: "./shared/xml/opponent.xml", x: 150, y: 350, scale: 1 },
-      player: { image: "./shared/images/player.png", xml: "./shared/xml/player.xml", x: 650, y: 450, scale: 0.25 }
-    };
-  </script>
+<script>
+  const demo = {
+    objects: [
+      { name: "background", image: "./shared/images/background.png", x: -380, y: -200, scale: 0.8, layer: 0 },
+      { name: "opponent", image: "./shared/images/opponent.png", xml: "./shared/xml/opponent.xml", x: 150, y: 350, scale: 1, layer: 1 },
+      { name: "player", image: "./shared/images/player.png", xml: "./shared/xml/player.xml", x: 650, y: 450, scale: 0.25, layer: 1 }
+    ]
+  };
+</script>
 
   <script src="./funkin.js"></script>
 </body>
