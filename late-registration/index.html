@@ -5,34 +5,39 @@
   <link id="favicon" rel="icon" href="./favicon.png" />
   <style>
     body { margin: 0; background: black; }
+
     canvas { display: block; }
+
+    #musicButton {
+      position: absolute;       
+      top: 10px;                
+      right: 10px;              
+      background: none;         
+      border: none;             
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.2s ease;
+      z-index: 999;             
+    }
+
+    #musicButton:hover {
+      transform: scale(1.2);    
+    }
+
+    #musicButton img {
+      width: 64px;              
+      height: 64px;
+      display: block;
+    }
   </style>
 </head>
 <body>
-<style>
-  body { display: flex; justify-content: center; align-items: center; height: 100vh; background: #111; }
-
-  #musicButton {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0;
-    transition: transform 0.2s ease;
-  }
-
-  #musicButton:hover {
-    transform: scale(1.2);
-  }
-
-  #musicButton img {
-    width: 64px; /* adjust size as needed */
-    height: 64px;
-  }
-</style>
 
 <button id="musicButton">
   <img id="musicIcon" src="./shared/images/ui/music-muted.png" alt="Music Button">
 </button>
+
+<canvas id="funkin"></canvas>
 
 <script>
   const tracks = [
@@ -52,11 +57,9 @@
   function playRandomTrack() {
     if (!isPlaying) return;
 
-    // pick a random track
     const randomIndex = Math.floor(Math.random() * tracks.length);
     const track = tracks[randomIndex];
 
-    // stop current audio if any
     if (currentAudio) {
       currentAudio.pause();
       currentAudio = null;
@@ -66,7 +69,6 @@
     currentAudio.volume = 1;
     currentAudio.play();
 
-    // when track ends, play a new random one
     currentAudio.onended = () => {
       playRandomTrack();
     };
@@ -87,10 +89,7 @@
     }
   });
 </script>
-  
-  <canvas id="funkin"></canvas>
 
-  <!-- Inline demo data -->
 <script>
   const demo = {
     objects: [
@@ -106,6 +105,6 @@
   };
 </script>
 
-  <script src="./funkin.js"></script>
+<script src="./funkin.js"></script>
 </body>
 </html>
