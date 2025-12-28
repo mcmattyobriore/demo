@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextureAtlas imagePath="lateregbear.png">
+<TextureAtlas imagePath="./images/opponent.png">
 	<!-- Created using the Spritesheet and XML generator -->
 	<!-- https://uncertainprod.github.io/FNF-Spritesheet-XML-generator-Web -->
 	<SubTexture name="down0000" x="1303" y="309" width="214" height="310" frameX="-193" frameY="-57" frameWidth="550" frameHeight="400"/>
