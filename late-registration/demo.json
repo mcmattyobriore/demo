@@ -1,24 +1,24 @@
 [
 {
   "background": {
-    "image": "assets/images/stage.png",
+    "image": "images/background.png",
     "x": 0,
     "y": 0
   },
 
   "opponent": {
-    "name": "dad",
-    "image": "assets/images/dad.png",
-    "xml": "assets/images/dad.xml",
+    "name": "opponent",
+    "image": "images/opponent.png",
+    "xml": "xml/opponent.xml",
     "x": 200,
     "y": 350,
     "scale": 1
   },
 
   "player": {
-    "name": "bf",
-    "image": "assets/images/bf.png",
-    "xml": "assets/images/bf.xml",
+    "name": "player",
+    "image": "images/player.png",
+    "xml": "xml/player.xml",
     "x": 850,
     "y": 450,
     "scale": 1
