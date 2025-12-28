@@ -1,14 +1,14 @@
 {
   "background": {
-    "image": "images/background.png",
+    "image": "./shared/images/background.png",
     "x": 0,
     "y": 0
   },
 
   "opponent": {
     "name": "opponent",
-    "image": "images/opponent.png",
-    "xml": "xml/opponent.xml",
+    "image": "./shared/images/opponent.png",
+    "xml": "./shared/xml/opponent.xml",
     "x": 200,
     "y": 350,
     "scale": 1
@@ -16,8 +16,8 @@
 
   "player": {
     "name": "player",
-    "image": "images/player.png",
-    "xml": "xml/player.xml",
+    "image": "./shared/images/player.png",
+    "xml": "./shared/xml/player.xml",
     "x": 850,
     "y": 450,
     "scale": 1
