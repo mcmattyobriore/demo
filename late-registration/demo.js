@@ -1,7 +1,7 @@
 const canvas = document.getElementById("funkin");
 const ctx = canvas.getContext("2d");
 
-// Design resolution (used for scaling)
+// Design resolution for scaling
 const DESIGN_WIDTH = 1280;
 const DESIGN_HEIGHT = 720;
 
@@ -58,15 +58,14 @@ class Sprite {
     this.y = y;
     this.scale = scale;
 
-    // Default to first animation
-    this.anim = Object.keys(frames)[0] || "idle";
+    this.anim = frames["idle"] ? "idle" : Object.keys(frames)[0];
     this.frameIndex = 0;
     this.frameTimer = 0;
     this.fps = 12;
   }
 
   setAnim(name) {
-    if (this.anim !== name && this.frames[name]) {
+    if (this.frames[name] && this.anim !== name) {
       this.anim = name;
       this.frameIndex = 0;
       this.frameTimer = 0;
@@ -91,8 +90,8 @@ class Sprite {
     ctx.drawImage(
       this.image,
       frame.x, frame.y, frame.w, frame.h,
-      this.x * scaleX,
-      this.y * scaleY,
+      (this.x + frame.ox) * scaleX,
+      (this.y + frame.oy) * scaleY,
       frame.w * this.scale * scaleX,
       frame.h * this.scale * scaleY
     );
@@ -109,6 +108,7 @@ function parseSparrow(xml) {
   for (const sub of subs) {
     const name = sub.getAttribute("name");
     const anim = name.replace(/[0-9]/g, "").trim();
+
     if (!frames[anim]) frames[anim] = [];
 
     frames[anim].push({
@@ -116,8 +116,8 @@ function parseSparrow(xml) {
       y: +sub.getAttribute("y"),
       w: +sub.getAttribute("width"),
       h: +sub.getAttribute("height"),
-      ox: 0,
-      oy: 0
+      ox: -(+sub.getAttribute("frameX") || 0),
+      oy: -(+sub.getAttribute("frameY") || 0)
     });
   }
 
@@ -132,6 +132,25 @@ let player, opponent;
 let lastTime = 0;
 
 // ==============================
+// INPUT → ANIMATION
+// ==============================
+function updateControls() {
+  // Opponent (WASD)
+  if (keys["w"]) opponent.setAnim("singUP");
+  else if (keys["a"]) opponent.setAnim("singLEFT");
+  else if (keys["s"]) opponent.setAnim("singDOWN");
+  else if (keys["d"]) opponent.setAnim("singRIGHT");
+  else opponent.setAnim("idle");
+
+  // Player (Arrow Keys)
+  if (keys["ArrowUp"]) player.setAnim("singUP");
+  else if (keys["ArrowLeft"]) player.setAnim("singLEFT");
+  else if (keys["ArrowDown"]) player.setAnim("singDOWN");
+  else if (keys["ArrowRight"]) player.setAnim("singRIGHT");
+  else player.setAnim("idle");
+}
+
+// ==============================
 // MAIN LOOP
 // ==============================
 function loop(time) {
@@ -140,8 +159,10 @@ function loop(time) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw background full-screen
+  // Draw background
   if (bg) ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+
+  updateControls();
 
   opponent?.update(dt);
   player?.update(dt);
