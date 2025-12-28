@@ -67,6 +67,8 @@ class Sprite {
 
   draw() {
     const frame = this.frames[this.anim][this.frameIndex];
+    if (!frame) return;
+
     ctx.drawImage(
       this.image,
       frame.x, frame.y, frame.w, frame.h,
@@ -105,9 +107,10 @@ function parseSparrow(xml) {
 }
 
 // ==============================
-// funkin STATE
+// STATE
 // ==============================
 let bg;
+let bgData;
 let player;
 let opponent;
 let lastTime = 0;
@@ -140,7 +143,14 @@ function loop(time) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+  // Background
+  ctx.drawImage(
+    bg,
+    bgData.x,
+    bgData.y,
+    canvas.width,
+    canvas.height
+  );
 
   updateControls();
 
@@ -157,9 +167,11 @@ function loop(time) {
 // INIT
 // ==============================
 async function init() {
-  const demo = await fetch("demo.json").then(r => r.json());
+  // UNWRAP ARRAY HERE
+  const demo = (await fetch("demo.json").then(r => r.json()))[0];
 
-  bg = await loadImage(demo.background.image);
+  bgData = demo.background;
+  bg = await loadImage(bgData.image);
 
   const oppImg = await loadImage(demo.opponent.image);
   const oppXML = parseSparrow(await loadXML(demo.opponent.xml));
