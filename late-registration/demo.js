@@ -1,8 +1,25 @@
 const canvas = document.getElementById("funkin");
 const ctx = canvas.getContext("2d");
 
-canvas.width = 1280;
-canvas.height = 720;
+// Design resolution (used for scaling)
+const DESIGN_WIDTH = 1280;
+const DESIGN_HEIGHT = 720;
+
+// ==============================
+// RESIZE CANVAS TO FULL SCREEN
+// ==============================
+let scaleX = 1;
+let scaleY = 1;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  scaleX = canvas.width / DESIGN_WIDTH;
+  scaleY = canvas.height / DESIGN_HEIGHT;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
 
 // ==============================
 // INPUT
@@ -71,14 +88,13 @@ class Sprite {
     const frame = this.frames[this.anim][this.frameIndex];
     if (!frame) return;
 
-    // Ignore offsets to avoid off-screen issues
     ctx.drawImage(
       this.image,
       frame.x, frame.y, frame.w, frame.h,
-      this.x,
-      this.y,
-      frame.w * this.scale,
-      frame.h * this.scale
+      this.x * scaleX,
+      this.y * scaleY,
+      frame.w * this.scale * scaleX,
+      frame.h * this.scale * scaleY
     );
   }
 }
@@ -92,9 +108,7 @@ function parseSparrow(xml) {
 
   for (const sub of subs) {
     const name = sub.getAttribute("name");
-    // Extract animation name by removing numbers
     const anim = name.replace(/[0-9]/g, "").trim();
-
     if (!frames[anim]) frames[anim] = [];
 
     frames[anim].push({
@@ -102,7 +116,7 @@ function parseSparrow(xml) {
       y: +sub.getAttribute("y"),
       w: +sub.getAttribute("width"),
       h: +sub.getAttribute("height"),
-      ox: 0, // ignore offsets for now
+      ox: 0,
       oy: 0
     });
   }
@@ -126,14 +140,14 @@ function loop(time) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw background
-  ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
+  // Draw background full-screen
+  if (bg) ctx.drawImage(bg, 0, 0, canvas.width, canvas.height);
 
-  opponent.update(dt);
-  player.update(dt);
+  opponent?.update(dt);
+  player?.update(dt);
 
-  opponent.draw();
-  player.draw();
+  opponent?.draw();
+  player?.draw();
 
   requestAnimationFrame(loop);
 }
@@ -142,8 +156,6 @@ function loop(time) {
 // INIT
 // ==============================
 async function init() {
-const demoData = demo; // Already loaded
-
   // Load background
   bgData = demo.background;
   bg = await loadImage(bgData.image);
@@ -151,12 +163,24 @@ const demoData = demo; // Already loaded
   // Load opponent
   const oppImg = await loadImage(demo.opponent.image);
   const oppXML = parseSparrow(await loadXML(demo.opponent.xml));
-  opponent = new Sprite(oppImg, oppXML, demo.opponent.x, demo.opponent.y, demo.opponent.scale || 1);
+  opponent = new Sprite(
+    oppImg,
+    oppXML,
+    demo.opponent.x,
+    demo.opponent.y,
+    demo.opponent.scale || 1
+  );
 
   // Load player
   const plrImg = await loadImage(demo.player.image);
   const plrXML = parseSparrow(await loadXML(demo.player.xml));
-  player = new Sprite(plrImg, plrXML, demo.player.x, demo.player.y, demo.player.scale || 1);
+  player = new Sprite(
+    plrImg,
+    plrXML,
+    demo.player.x,
+    demo.player.y,
+    demo.player.scale || 1
+  );
 
   requestAnimationFrame(loop);
 }
