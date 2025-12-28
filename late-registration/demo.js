@@ -142,7 +142,7 @@ function loop(time) {
 // INIT
 // ==============================
 async function init() {
-  const demo = (await fetch("./demo.json").then(r => r.json()))[0];
+const demoData = demo; // Already loaded
 
   // Load background
   bgData = demo.background;
