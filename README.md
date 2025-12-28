@@ -1,4 +1,4 @@
-![e](https://github.com/mcmattyobriore/funkin-source-0.7.5/blob/main/readme/preview-1.jpeg)
+![e](https://github.com/mcmattyobriore/empty/blob/main/readme/preview-1.jpeg)
 # YEEZY NIGHT FUNKIN' Created by Ant | eliseo.mol3 DEMO BY Rhap5ody | mcmattyobriore
 ## Weeks
 - Snowdin (locked)
@@ -44,4 +44,4 @@
 **[Beloved OGs]** \
 **[DEMO CONTRIBUTOR]** \
 https://drive.google.com/drive/folders/1UB6b0vqo01JZblCfi9Ev7krMPxqjPVEu
-![e](https://github.com/mcmattyobriore/funkin-source-0.7.5/blob/main/readme/preview-2.jpeg)
+![e](https://github.com/mcmattyobriore/empty/blob/main/readme/preview-2.jpeg)
