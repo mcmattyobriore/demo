@@ -37,11 +37,40 @@
 - Rarts^tm | rartsofficial
 - ksh | ilikechowchows
 
-**[Charting]** \
-**[Artists]** \
+**[Charting]** 
+- matrixpart2.
+- Peej | yellowrag98
+- Jazzy | gazznap
+- Gigi ! | joesephchillaxworld
+- Ant | eliseo.mol3
+- husk | huskd
+- siah | stareatswag
+- Nico | imsayden_n
+- Matrix | mattedmatrix
+- Personified. | keboii69
+- ksh | ilikechowchows
+
+**[Artists]**
+- Matrixpart2
+- R5 | rhap5ody | rh5psody
+- Phoenix | creepermode360
+- BUSAGUN
+- spook
+- Zavien | mrgoon185
+- icey | iceymadethisone
+- husk
+- Rarts^tm
+- Kromer__ | .kromer__
+- siah
+- Doodus | doodslr
+- goldenalt | therealgoldenalt
+- humourous | humour0ous_
+- Matrix
+- KLAW | vp_yzy
+- NYx | 12.nyx.83
+
 **[Composer]** \
 **[Coding]** \
 **[Beloved OGs]** \
 **[DEMO CONTRIBUTOR]** \
-https://drive.google.com/drive/folders/1UB6b0vqo01JZblCfi9Ev7krMPxqjPVEu
 ![e](https://github.com/mcmattyobriore/empty/blob/main/readme/preview-5.png)
