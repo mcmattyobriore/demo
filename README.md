@@ -1,6 +1,8 @@
 > [!IMPORTANT]
 > Yeezy Night Funkin' Now Avaliable at Gamebanana!
 
+$\color{blue}{\text{This text is blue}}$
+
 ![e](https://github.com/mcmattyobriore/empty/blob/main/readme/preview-1.jpeg)
 # YEEZY NIGHT FUNKIN' Created by Ant | eliseo.mol3 DEMO BY Rhap5ody | mcmattyobriore
 ## Weeks
