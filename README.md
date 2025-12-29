@@ -95,7 +95,7 @@
 - $\color{hotpink}{\text{NYX}}$
 
  $\color{purple}{\textbf{[DEMO CONTRIBUTORS]}}$
-- $\color{purple}{\text{mattedmatrix \& matrixpart2}}$
+- $\color{purple}{\text{mattedmatrix \and matrixpart2}}$
 - $\color{purple}{\text{rh5psody}}$
 - $\color{purple}{\text{yellowrag98}}$
 - $\color{purple}{\text{creepermode360}}$
@@ -112,7 +112,7 @@
 - $\color{purple}{\text{stareatswag}}$
 - $\color{purple}{\text{imjayden n}}$
 - $\color{purple}{\text{doodslr}}$
-- $\color{purple}{\text{therealgolden \& therealgoldenalt}}$
+- $\color{purple}{\text{therealgolden \and therealgoldenalt}}$
 - $\color{purple}{\text{humor0ous }}$
 - $\color{purple}{\text{keboii69}}$
 - $\color{purple}{\text{vp yzy}}$
