@@ -44,4 +44,4 @@
 **[Beloved OGs]** \
 **[DEMO CONTRIBUTOR]** \
 https://drive.google.com/drive/folders/1UB6b0vqo01JZblCfi9Ev7krMPxqjPVEu
-![e](https://github.com/mcmattyobriore/empty/blob/main/readme/preview-2.jpeg)
+![e](https://github.com/mcmattyobriore/empty/blob/main/readme/preview-5.png)
