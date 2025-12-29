@@ -62,15 +62,58 @@
 - Rarts^tm
 - Kromer__ | .kromer__
 - siah
-- Doodus | doodslr
+- Dooduds | doodslr
 - goldenalt | therealgoldenalt
 - humourous | humour0ous_
 - Matrix
 - KLAW | vp_yzy
 - NYx | 12.nyx.83
 
-**[Composer]** \
-**[Coding]** \
-**[Beloved OGs]** \
-**[DEMO CONTRIBUTOR]** \
+**[Composer]** 
+- icey
+- husk
+  
+**[Coding]** 
+- R5 | Rhap5ody | rh5psody
+- Jazzy | gazznap
+- Icey | Iceymadethisone
+- Dooduds | doodslr
+  
+**[Beloved OGs]** 
+- Phoenix
+- BUSAGUN
+- Spook
+- Jazzy
+- Icey
+- Ant
+- Husk
+- Siah
+- Golden
+- NYX
+
+**[DEMO CONTRIBUTOR]** 
+- mattedmatrix & matrixpart2
+- rh5psody
+- yellowrag98
+- creepermode360
+- busagun
+- spookz_0
+- gazznap
+- mrgoon185
+- iceymadethisone
+- joesephchillaxworld
+- eliseo.mol3
+- huskd
+- rartsofficial
+- .kromer__
+- stareatswag
+- imjayden_n
+- doodslr
+- therealgolden & therealgoldenalt
+- humor0ous_
+- keboii69
+- vp_yzy
+- 12.nyx.83
+- ilikechowchows
+
 ![e](https://github.com/mcmattyobriore/empty/blob/main/readme/preview-5.png)
