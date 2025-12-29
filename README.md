@@ -27,96 +27,96 @@
 **FREEPLAY CONTAINS ALL SONGS** \
 **MADE WITH NO ENGINES! ATLEAST THIS DEMO XDDD**
 ## Contributors:
-**[Creator]** 
-- Ant | eliseo.mol3
-  
-**[Ranked Up]** 
-- R5 | Rhap5ody
-- Pheonix | creepermode360
-- Spook | spookz_0
-- Icey | iceymadethisone
-- Ant | eliseo.mol3
-- husk | huskd
-- Rarts^tm | rartsofficial
-- ksh | ilikechowchows
+ $\color{goldenrod}{\textbf{[Creator]}}$
+- $\color{goldenrod}{\text{Ant | eliseo.mol3}}$
 
-**[Charting]** 
-- matrixpart2.
-- Peej | yellowrag98
-- Jazzy | gazznap
-- Gigi ! | joesephchillaxworld
-- Ant | eliseo.mol3
-- husk | huskd
-- siah | stareatswag
-- Nico | imsayden_n
-- Matrix | mattedmatrix
-- Personified. | keboii69
-- ksh | ilikechowchows
+ $\color{teal}{\textbf{[Ranked Up]}}$
+- $\color{teal}{\text{R5 | Rhap5ody}}$
+- $\color{teal}{\text{Pheonix | creepermode360}}$
+- $\color{teal}{\text{Spook | spookz_0}}$
+- $\color{teal}{\text{Icey | iceymadethisone}}$
+- $\color{teal}{\text{Ant | eliseo.mol3}}$
+- $\color{teal}{\text{husk | huskd}}$
+- $\color{teal}{\text{Rarts^tm | rartsofficial}}$
+- $\color{teal}{\text{ilikechowchows}}$
 
-**[Artists]**
-- Matrixpart2
-- R5 | rhap5ody | rh5psody
-- Phoenix | creepermode360
-- BUSAGUN
-- spook
-- Zavien | mrgoon185
-- icey | iceymadethisone
-- husk
-- Rarts^tm
-- Kromer__ | .kromer__
-- siah
-- Dooduds | doodslr
-- goldenalt | therealgoldenalt
-- humourous | humour0ous_
-- Matrix
-- KLAW | vp_yzy
-- NYx | 12.nyx.83
+ $\color{blue}{\textbf{[Charting]}}$
+- $\color{blue}{\text{matrixpart2.}}$
+- $\color{blue}{\text{Peej | yellowrag98}}$
+- $\color{blue}{\text{Jazzy | gazznap}}$
+- $\color{blue}{\text{Gigi ! | joesephchillaxworld}}$
+- $\color{blue}{\text{Ant | eliseo.mol3}}$
+- $\color{blue}{\text{husk | huskd}}$
+- $\color{blue}{\text{siah | stareatswag}}$
+- $\color{blue}{\text{Nico | imsayden_n}}$
+- $\color{blue}{\text{Matrix | mattedmatrix}}$
+- $\color{blue}{\text{Personified. | keboii69}}$
+- $\color{blue}{\text{ilikechowchows}}$
 
-**[Composer]** 
-- icey
-- husk
-  
-**[Coding]** 
-- R5 | Rhap5ody | rh5psody
-- Jazzy | gazznap
-- Icey | Iceymadethisone
-- Dooduds | doodslr
-  
-**[Beloved OGs]** 
-- Phoenix
-- BUSAGUN
-- Spook
-- Jazzy
-- Icey
-- Ant
-- Husk
-- Siah
-- Golden
-- NYX
+ $\color{gold}{\textbf{[Artists]}}$
+- $\color{gold}{\text{Matrixpart2}}$
+- $\color{gold}{\text{R5 | rhap5ody | rh5psody}}$
+- $\color{gold}{\text{Phoenix | creepermode360}}$
+- $\color{gold}{\text{BUSAGUN}}$
+- $\color{gold}{\text{spook}}$
+- $\color{gold}{\text{Zavien | mrgoon185}}$
+- $\color{gold}{\text{icey | iceymadethisone}}$
+- $\color{gold}{\text{husk}}$
+- $\color{gold}{\text{Rarts^tm}}$
+- $\color{gold}{\text{Kromer__ | .kromer__}}$
+- $\color{gold}{\text{siah}}$
+- $\color{gold}{\text{Dooduds | doodslr}}$
+- $\color{gold}{\text{goldenalt | therealgoldenalt}}$
+- $\color{gold}{\text{humourous | humour0ous_}}$
+- $\color{gold}{\text{Matrix}}$
+- $\color{gold}{\text{KLAW | vp_yzy}}$
+- $\color{gold}{\text{NYx | 12.nyx.83}}$
 
-**[DEMO CONTRIBUTOR]** 
-- mattedmatrix & matrixpart2
-- rh5psody
-- yellowrag98
-- creepermode360
-- busagun
-- spookz_0
-- gazznap
-- mrgoon185
-- iceymadethisone
-- joesephchillaxworld
-- eliseo.mol3
-- huskd
-- rartsofficial
-- .kromer__
-- stareatswag
-- imjayden_n
-- doodslr
-- therealgolden & therealgoldenalt
-- humor0ous_
-- keboii69
-- vp_yzy
-- 12.nyx.83
+ $\color{orange}{\textbf{[Composer]}}$
+- $\color{orange}{\text{icey}}$
+- $\color{orange}{\text{husk}}$
+
+ $\color{green}{\textbf{[Coding]}}$
+- $\color{green}{\text{R5 | Rhap5ody | rh5psody}}$
+- $\color{green}{\text{Jazzy | gazznap}}$
+- $\color{green}{\text{Icey | Iceymadethisone}}$
+- $\color{green}{\text{Dooduds | doodslr}}$
+
+ $\color{hotpink}{\textbf{[Beloved OGs]}}$
+- $\color{hotpink}{\text{Phoenix}}$
+- $\color{hotpink}{\text{BUSAGUN}}$
+- $\color{hotpink}{\text{Spook}}$
+- $\color{hotpink}{\text{Jazzy}}$
+- $\color{hotpink}{\text{Icey}}$
+- $\color{hotpink}{\text{Ant}}$
+- $\color{hotpink}{\text{Husk}}$
+- $\color{hotpink}{\text{Siah}}$
+- $\color{hotpink}{\text{Golden}}$
+- $\color{hotpink}{\text{NYX}}$
+
+ $\color{purple}{\textbf{[DEMO CONTRIBUTORS]}}$
+- $\color{purple}{\text{mattedmatrix \& matrixpart2}}$
+- $\color{purple}{\text{rh5psody}}$
+- $\color{purple}{\text{yellowrag98}}$
+- $\color{purple}{\text{creepermode360}}$
+- $\color{purple}{\text{busagun}}$
+- $\color{purple}{\text{spookz_0}}$
+- $\color{purple}{\text{gazznap}}$
+- $\color{purple}{\text{mrgoon185}}$
+- $\color{purple}{\text{iceymadethisone}}$
+- $\color{purple}{\text{joesephchillaxworld}}$
+- $\color{purple}{\text{eliseo.mol3}}$
+- $\color{purple}{\text{huskd}}$
+- $\color{purple}{\text{rartsofficial}}$
+- $\color{purple}{\text{.kromer__}}$
+- $\color{purple}{\text{stareatswag}}$
+- $\color{purple}{\text{imjayden_n}}$
+- $\color{purple}{\text{doodslr}}$
+- $\color{purple}{\text{therealgolden \& therealgoldenalt}}$
+- $\color{purple}{\text{humor0ous_}}$
+- $\color{purple}{\text{keboii69}}$
+- $\color{purple}{\text{vp_yzy}}$
+- $\color{purple}{\text{12.nyx.83}}$
 - $\color{purple}{\text{ilikechowchows}}$
 
 ![e](https://github.com/mcmattyobriore/empty/blob/main/readme/preview-5.png)
