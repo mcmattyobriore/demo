@@ -56,6 +56,8 @@ class Sprite {
     this.baseY = y;
     this.scale = scale;
 
+    this.opacity = 1; // 🔥 NEW
+
     this.anim = frames.idle ? "idle" : Object.keys(frames)[0];
     this.frameIndex = 0;
     this.frameTimer = 0;
@@ -88,6 +90,9 @@ class Sprite {
     const drawX = (this.baseX + f.ox) * scaleX;
     const drawY = (this.baseY + f.oy) * scaleY;
 
+    ctx.save();                     // 🔥
+    ctx.globalAlpha = this.opacity; // 🔥
+
     ctx.drawImage(
       this.image,
       f.x, f.y, f.w, f.h,
@@ -96,6 +101,8 @@ class Sprite {
       f.w * this.scale * scaleX,
       f.h * this.scale * scaleY
     );
+
+    ctx.restore(); // 🔥
   }
 }
 
@@ -155,6 +162,15 @@ function updateControls() {
   }
 }
 
+const effects = {
+  pulseLight(obj, dt) {
+    // Smooth sine wave between 0.8 and 1.0
+    obj._pulseTime = (obj._pulseTime || 0) + dt * 2;
+    obj.sprite.opacity = 0.9 + Math.sin(obj._pulseTime) * 0.1;
+  }
+};
+
+
 // ==============================
 // MAIN LOOP
 // ==============================
@@ -169,10 +185,11 @@ function loop(time) {
   // Sort by layer
   const sortedObjects = [...gameObjects].sort((a, b) => (a.layer || 0) - (b.layer || 0));
 
-  for (const obj of sortedObjects) {
-    obj.sprite?.update(dt);
-    obj.sprite?.draw();
-  }
+for (const obj of sortedObjects) {
+  obj.effect?.(obj, dt);   // 🔥 apply effect
+  obj.sprite?.update(dt);
+  obj.sprite?.draw();
+}
 
   requestAnimationFrame(loop);
 }
@@ -201,17 +218,35 @@ async function init() {
 // Helper: load image, XML, create sprite and push
 async function loadAndPushObject(obj) {
   const image = await loadImage(obj.image);
-  let frames = { idle: [{ x: 0, y: 0, w: image.width, h: image.height, ox: 0, oy: 0 }] };
+  let frames = {
+    idle: [{ x: 0, y: 0, w: image.width, h: image.height, ox: 0, oy: 0 }]
+  };
 
   if (obj.xml) {
     frames = parseSparrow(await loadXML(obj.xml));
   }
 
-  gameObjects.push({
+  const sprite = new Sprite(
+    image,
+    frames,
+    obj.x || 0,
+    obj.y || 0,
+    obj.scale || 1
+  );
+
+  const gameObj = {
     name: obj.name || "object",
     layer: obj.layer || 0,
-    sprite: new Sprite(image, frames, obj.x || 0, obj.y || 0, obj.scale || 1)
-  });
+    sprite,
+    effect: null
+  };
+
+  // 🔥 NAME-BASED EFFECTS
+  if (obj.name === "lamp-light" || obj.name === "lamp-lightend") {
+    gameObj.effect = effects.pulseLight;
+  }
+
+  gameObjects.push(gameObj);
 }
 
 init();
