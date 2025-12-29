@@ -37,7 +37,7 @@
 - $\color{teal}{\text{Icey | iceymadethisone}}$
 - $\color{teal}{\text{Ant | eliseo.mol3}}$
 - $\color{teal}{\text{husk | huskd}}$
-- $\color{teal}{\text{Rarts^tm | rartsofficial}}$
+- $\color{teal}{\text{Rarts™ | rartsofficial}}$
 - $\color{teal}{\text{ilikechowchows}}$
 
  $\color{blue}{\textbf{[Charting]}}$
@@ -62,7 +62,7 @@
 - $\color{gold}{\text{Zavien | mrgoon185}}$
 - $\color{gold}{\text{icey | iceymadethisone}}$
 - $\color{gold}{\text{husk}}$
-- $\color{gold}{\text{Rarts^tm}}$
+- $\color{gold}{\text{Rarts™}}$
 - $\color{gold}{\text{Kromer   | .kromer  }}$
 - $\color{gold}{\text{siah}}$
 - $\color{gold}{\text{Dooduds | doodslr}}$
