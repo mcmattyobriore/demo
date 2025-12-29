@@ -1,6 +1,5 @@
 > [!IMPORTANT]
-> This text will appear with an important (often red or yellow) color and icon.
-
+> Yeezy Night Funkin' Now Avaliable at Gamebanana!
 ![e](https://github.com/mcmattyobriore/empty/blob/main/readme/preview-1.jpeg)
 # YEEZY NIGHT FUNKIN' Created by Ant | eliseo.mol3 DEMO BY Rhap5ody | mcmattyobriore
 ## Weeks
