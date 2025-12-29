@@ -33,7 +33,7 @@
  $\color{teal}{\textbf{[Ranked Up]}}$
 - $\color{teal}{\text{R5 | Rhap5ody}}$
 - $\color{teal}{\text{Pheonix | creepermode360}}$
-- $\color{teal}{\text{Spook | spookz_0}}$
+- $\color{teal}{\text{Spook | spookz 0}}$
 - $\color{teal}{\text{Icey | iceymadethisone}}$
 - $\color{teal}{\text{Ant | eliseo.mol3}}$
 - $\color{teal}{\text{husk | huskd}}$
@@ -48,7 +48,7 @@
 - $\color{blue}{\text{Ant | eliseo.mol3}}$
 - $\color{blue}{\text{husk | huskd}}$
 - $\color{blue}{\text{siah | stareatswag}}$
-- $\color{blue}{\text{Nico | imsayden_n}}$
+- $\color{blue}{\text{Nico | imsayden n}}$
 - $\color{blue}{\text{Matrix | mattedmatrix}}$
 - $\color{blue}{\text{Personified. | keboii69}}$
 - $\color{blue}{\text{ilikechowchows}}$
@@ -63,13 +63,13 @@
 - $\color{gold}{\text{icey | iceymadethisone}}$
 - $\color{gold}{\text{husk}}$
 - $\color{gold}{\text{Rarts^tm}}$
-- $\color{gold}{\text{Kromer__ | .kromer__}}$
+- $\color{gold}{\text{Kromer   | .kromer  }}$
 - $\color{gold}{\text{siah}}$
 - $\color{gold}{\text{Dooduds | doodslr}}$
 - $\color{gold}{\text{goldenalt | therealgoldenalt}}$
-- $\color{gold}{\text{humourous | humour0ous_}}$
+- $\color{gold}{\text{humourous | humour0ous }}$
 - $\color{gold}{\text{Matrix}}$
-- $\color{gold}{\text{KLAW | vp_yzy}}$
+- $\color{gold}{\text{KLAW | vp yzy}}$
 - $\color{gold}{\text{NYx | 12.nyx.83}}$
 
  $\color{orange}{\textbf{[Composer]}}$
@@ -100,7 +100,7 @@
 - $\color{purple}{\text{yellowrag98}}$
 - $\color{purple}{\text{creepermode360}}$
 - $\color{purple}{\text{busagun}}$
-- $\color{purple}{\text{spookz_0}}$
+- $\color{purple}{\text{spookz 0}}$
 - $\color{purple}{\text{gazznap}}$
 - $\color{purple}{\text{mrgoon185}}$
 - $\color{purple}{\text{iceymadethisone}}$
@@ -108,14 +108,14 @@
 - $\color{purple}{\text{eliseo.mol3}}$
 - $\color{purple}{\text{huskd}}$
 - $\color{purple}{\text{rartsofficial}}$
-- $\color{purple}{\text{.kromer__}}$
+- $\color{purple}{\text{.kromer  }}$
 - $\color{purple}{\text{stareatswag}}$
-- $\color{purple}{\text{imjayden_n}}$
+- $\color{purple}{\text{imjayden n}}$
 - $\color{purple}{\text{doodslr}}$
 - $\color{purple}{\text{therealgolden \& therealgoldenalt}}$
-- $\color{purple}{\text{humor0ous_}}$
+- $\color{purple}{\text{humor0ous }}$
 - $\color{purple}{\text{keboii69}}$
-- $\color{purple}{\text{vp_yzy}}$
+- $\color{purple}{\text{vp yzy}}$
 - $\color{purple}{\text{12.nyx.83}}$
 - $\color{purple}{\text{ilikechowchows}}$
 
