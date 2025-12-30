@@ -1,1 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Graduation</title>
+  <link id="favicon" rel="icon" href="./favicon.png" />
+  <style>
+    body { margin: 0; background: black; }
 
+    canvas { display: block; }
+
+    #musicButton {
+      position: absolute;       
+      top: 10px;                
+      right: 10px;              
+      background: none;         
+      border: none;             
+      cursor: pointer;
+      padding: 0;
+      transition: transform 0.2s ease;
+      z-index: 999;             
+    }
+
+    #musicButton:hover {
+      transform: scale(1.2);    
+    }
+
+    #musicButton img {
+      width: 64px;              
+      height: 64px;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+<button id="musicButton">
+  <img id="musicIcon" src="./shared/images/ui/music-muted.png" alt="Music Button">
+</button>
+
+<canvas id="funkin"></canvas>
+
+<script>
+  const tracks = [
+    "./shared/songs/heard-em-say.mp3",
+    "./shared/songs/late.mp3",
+    "./shared/songs/roses.mp3",
+    "./shared/songs/touch-the-sky.mp3",
+    "./shared/songs/we-major.mp3"
+  ];
+
+  let isPlaying = false;
+  let currentAudio = null;
+
+  const button = document.getElementById("musicButton");
+  const icon = document.getElementById("musicIcon");
+
+  function playRandomTrack() {
+    if (!isPlaying) return;
+
+    const randomIndex = Math.floor(Math.random() * tracks.length);
+    const track = tracks[randomIndex];
+
+    if (currentAudio) {
+      currentAudio.pause();
+      currentAudio = null;
+    }
+
+    currentAudio = new Audio(track);
+    currentAudio.volume = 1;
+    currentAudio.play();
+
+    currentAudio.onended = () => {
+      playRandomTrack();
+    };
+  }
+
+  button.addEventListener("click", () => {
+    isPlaying = !isPlaying;
+
+    if (isPlaying) {
+      icon.src = "./shared/images/ui/music-on.png";
+      playRandomTrack();
+    } else {
+      icon.src = "./shared/images/ui/music-muted.png";
+      if (currentAudio) {
+        currentAudio.pause();
+        currentAudio = null;
+      }
+    }
+  });
+</script>
+
+<script>
+  const demo = {
+    objects: [
+      { name: "background", image: "./shared/images/finalbackground.png", x: -380, y: -200, scale: 0.8, layer: 0 },
+      { name: "opponent", image: "./shared/images/opponent.png", xml: "./shared/xml/opponent.xml", x: 150, y: 350, scale: 1, layer: 1 },
+      { name: "player", image: "./shared/images/player.png", xml: "./shared/xml/player.xml", x: 650, y: 450, scale: 0.25, layer: 1 }
+    ]
+  };
+</script>
+
+<script src="./funkin.js"></script>
+</body>
+</html>
