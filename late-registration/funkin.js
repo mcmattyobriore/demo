@@ -44,16 +44,18 @@ function loadXML(src) {
 }
 
 // ==============================
-// SPRITE
+// SPRITE (ANCHOR-BASED)
 // ==============================
 class Sprite {
   constructor(image, frames, x, y, scale = 1) {
     this.image = image;
     this.frames = frames;
-    this.baseX = x;
-    this.baseY = y;
-    this.scale = scale;
 
+    // 🔒 WORLD POSITION (NEVER CHANGES)
+    this.anchorX = x;
+    this.anchorY = y;
+
+    this.scale = scale;
     this.opacity = 1;
     this.fps = 12;
 
@@ -85,14 +87,23 @@ class Sprite {
     const f = this.frames[this.anim]?.[this.frameIndex];
     if (!f) return;
 
+    // 🔥 APPLY OFFSETS ONLY AT DRAW TIME
+    const drawX =
+      this.anchorX * scaleX +
+      f.ox * this.scale * scaleX;
+
+    const drawY =
+      this.anchorY * scaleY +
+      f.oy * this.scale * scaleY;
+
     ctx.save();
     ctx.globalAlpha = this.opacity;
 
     ctx.drawImage(
       this.image,
       f.x, f.y, f.w, f.h,
-      (this.baseX + f.ox) * scaleX,
-      (this.baseY + f.oy) * scaleY,
+      drawX,
+      drawY,
       f.w * this.scale * scaleX,
       f.h * this.scale * scaleY
     );
@@ -110,8 +121,6 @@ function parseSparrow(xml) {
 
   for (const sub of subs) {
     const name = sub.getAttribute("name");
-
-    // Match: animName + frameNumber
     const match = name.match(/^(.*?)(\d+)$/);
     if (!match) continue;
 
@@ -131,7 +140,7 @@ function parseSparrow(xml) {
     });
   }
 
-  // Sort frames numerically (CRITICAL)
+  // 🔥 SORT FRAMES NUMERICALLY
   for (const anim in frames) {
     frames[anim].sort((a, b) => a.index - b.index);
     frames[anim] = frames[anim].map(f => {
@@ -190,7 +199,10 @@ function loop(time) {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   updateControls();
 
-  const sorted = [...gameObjects].sort((a, b) => (a.layer || 0) - (b.layer || 0));
+  const sorted = [...gameObjects].sort(
+    (a, b) => (a.layer || 0) - (b.layer || 0)
+  );
+
   for (const obj of sorted) {
     obj.effect?.(obj, dt);
     obj.sprite?.update(dt);
