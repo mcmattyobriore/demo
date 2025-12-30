@@ -16,7 +16,6 @@ function resizeCanvas() {
   scaleX = canvas.width / DESIGN_WIDTH;
   scaleY = canvas.height / DESIGN_HEIGHT;
 }
-
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
@@ -24,8 +23,8 @@ resizeCanvas();
 // INPUT
 // ==============================
 const keys = {};
-window.addEventListener("keydown", e => keys[e.key] = true);
-window.addEventListener("keyup", e => keys[e.key] = false);
+window.addEventListener("keydown", e => (keys[e.key] = true));
+window.addEventListener("keyup", e => (keys[e.key] = false));
 
 // ==============================
 // LOADERS
@@ -45,23 +44,22 @@ function loadXML(src) {
 }
 
 // ==============================
-// SPRITE CLASS (ANTI-JITTER)
+// SPRITE
 // ==============================
 class Sprite {
   constructor(image, frames, x, y, scale = 1) {
     this.image = image;
     this.frames = frames;
-
     this.baseX = x;
     this.baseY = y;
     this.scale = scale;
 
-    this.opacity = 1; // 🔥 NEW
+    this.opacity = 1;
+    this.fps = 12;
 
     this.anim = frames.idle ? "idle" : Object.keys(frames)[0];
     this.frameIndex = 0;
     this.frameTimer = 0;
-    this.fps = 12;
   }
 
   setAnim(name) {
@@ -73,13 +71,13 @@ class Sprite {
   }
 
   update(dt) {
-    const frames = this.frames[this.anim];
-    if (!frames) return;
+    const animFrames = this.frames[this.anim];
+    if (!animFrames) return;
 
     this.frameTimer += dt;
     if (this.frameTimer >= 1 / this.fps) {
       this.frameTimer = 0;
-      this.frameIndex = (this.frameIndex + 1) % frames.length;
+      this.frameIndex = (this.frameIndex + 1) % animFrames.length;
     }
   }
 
@@ -87,48 +85,58 @@ class Sprite {
     const f = this.frames[this.anim]?.[this.frameIndex];
     if (!f) return;
 
-    const drawX = (this.baseX + f.ox) * scaleX;
-    const drawY = (this.baseY + f.oy) * scaleY;
-
-    ctx.save();                     // 🔥
-    ctx.globalAlpha = this.opacity; // 🔥
+    ctx.save();
+    ctx.globalAlpha = this.opacity;
 
     ctx.drawImage(
       this.image,
       f.x, f.y, f.w, f.h,
-      drawX,
-      drawY,
+      (this.baseX + f.ox) * scaleX,
+      (this.baseY + f.oy) * scaleY,
       f.w * this.scale * scaleX,
       f.h * this.scale * scaleY
     );
 
-    ctx.restore(); // 🔥
+    ctx.restore();
   }
 }
 
 // ==============================
-// SPARROW XML PARSER
+// STRICT SPARROW XML PARSER
 // ==============================
 function parseSparrow(xml) {
   const frames = {};
   const subs = xml.getElementsByTagName("SubTexture");
 
   for (const sub of subs) {
-    let name = sub.getAttribute("name");
-    name = name.replace(/\d+$/, "");
-    const parts = name.split(" ");
-    if (parts.length > 1) parts.shift();
-    name = parts.join(" ").trim();
+    const name = sub.getAttribute("name");
 
-    if (!frames[name]) frames[name] = [];
+    // Match: animName + frameNumber
+    const match = name.match(/^(.*?)(\d+)$/);
+    if (!match) continue;
 
-    frames[name].push({
+    const anim = match[1];
+    const index = Number(match[2]);
+
+    if (!frames[anim]) frames[anim] = [];
+
+    frames[anim].push({
+      index,
       x: +sub.getAttribute("x"),
       y: +sub.getAttribute("y"),
       w: +sub.getAttribute("width"),
       h: +sub.getAttribute("height"),
       ox: -(+sub.getAttribute("frameX") || 0),
       oy: -(+sub.getAttribute("frameY") || 0)
+    });
+  }
+
+  // Sort frames numerically (CRITICAL)
+  for (const anim in frames) {
+    frames[anim].sort((a, b) => a.index - b.index);
+    frames[anim] = frames[anim].map(f => {
+      delete f.index;
+      return f;
     });
   }
 
@@ -142,34 +150,35 @@ let gameObjects = [];
 let lastTime = 0;
 
 function updateControls() {
-  const playerObj = gameObjects.find(o => o.name === "player")?.sprite;
-  const opponentObj = gameObjects.find(o => o.name === "opponent")?.sprite;
+  const player = gameObjects.find(o => o.name === "player")?.sprite;
+  const opponent = gameObjects.find(o => o.name === "opponent")?.sprite;
 
-  if (opponentObj) {
-    if (keys.w) opponentObj.setAnim("singUP");
-    else if (keys.a) opponentObj.setAnim("singLEFT");
-    else if (keys.s) opponentObj.setAnim("singDOWN");
-    else if (keys.d) opponentObj.setAnim("singRIGHT");
-    else opponentObj.setAnim("idle");
+  if (opponent) {
+    if (keys.w) opponent.setAnim("singUP");
+    else if (keys.a) opponent.setAnim("singLEFT");
+    else if (keys.s) opponent.setAnim("singDOWN");
+    else if (keys.d) opponent.setAnim("singRIGHT");
+    else opponent.setAnim("idle");
   }
 
-  if (playerObj) {
-    if (keys.ArrowUp) playerObj.setAnim("singUP");
-    else if (keys.ArrowLeft) playerObj.setAnim("singLEFT");
-    else if (keys.ArrowDown) playerObj.setAnim("singDOWN");
-    else if (keys.ArrowRight) playerObj.setAnim("singRIGHT");
-    else playerObj.setAnim("idle");
+  if (player) {
+    if (keys.ArrowUp) player.setAnim("singUP");
+    else if (keys.ArrowLeft) player.setAnim("singLEFT");
+    else if (keys.ArrowDown) player.setAnim("singDOWN");
+    else if (keys.ArrowRight) player.setAnim("singRIGHT");
+    else player.setAnim("idle");
   }
 }
 
+// ==============================
+// EFFECTS
+// ==============================
 const effects = {
   pulseLight(obj, dt) {
-    // Smooth sine wave between 0.8 and 1.0
-    obj._pulseTime = (obj._pulseTime || 0) + dt * 2;
-    obj.sprite.opacity = 0.9 + Math.sin(obj._pulseTime) * 0.1;
+    obj._t = (obj._t || 0) + dt * 2;
+    obj.sprite.opacity = 0.9 + Math.sin(obj._t) * 0.1;
   }
 };
-
 
 // ==============================
 // MAIN LOOP
@@ -179,17 +188,14 @@ function loop(time) {
   lastTime = time;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   updateControls();
 
-  // Sort by layer
-  const sortedObjects = [...gameObjects].sort((a, b) => (a.layer || 0) - (b.layer || 0));
-
-for (const obj of sortedObjects) {
-  obj.effect?.(obj, dt);   // 🔥 apply effect
-  obj.sprite?.update(dt);
-  obj.sprite?.draw();
-}
+  const sorted = [...gameObjects].sort((a, b) => (a.layer || 0) - (b.layer || 0));
+  for (const obj of sorted) {
+    obj.effect?.(obj, dt);
+    obj.sprite?.update(dt);
+    obj.sprite?.draw();
+  }
 
   requestAnimationFrame(loop);
 }
@@ -198,24 +204,17 @@ for (const obj of sortedObjects) {
 // INIT
 // ==============================
 async function init() {
-  // Loop through demo keys
   for (const key in demo) {
     const obj = demo[key];
-
-    // Handle arrays of objects
     if (Array.isArray(obj)) {
-      for (const o of obj) {
-        await loadAndPushObject(o);
-      }
+      for (const o of obj) await loadAndPushObject(o);
     } else {
       await loadAndPushObject(obj);
     }
   }
-
   requestAnimationFrame(loop);
 }
 
-// Helper: load image, XML, create sprite and push
 async function loadAndPushObject(obj) {
   const image = await loadImage(obj.image);
   let frames = {
@@ -241,7 +240,6 @@ async function loadAndPushObject(obj) {
     effect: null
   };
 
-  // 🔥 NAME-BASED EFFECTS
   if (obj.name === "lamp-light" || obj.name === "lamp-lightend") {
     gameObj.effect = effects.pulseLight;
   }
